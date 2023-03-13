@@ -14,6 +14,11 @@ typedef struct{
     char *value;
 } anemone_optional_return_value;
 
+typedef struct _anemone_positional_argument{
+  char *positional_argument_value;
+  struct _anemone_positional_argument *next;
+} anemone_positional_argument;
+
 typedef struct _anemone_optional_argument{
     char *long_name;
     char *short_name;
@@ -26,9 +31,10 @@ typedef struct _anemone_optional_argument{
 
 typedef struct{
     unsigned int necessary_positionals;
+    unsigned int fetched_positionals;
     anemone_bool compiled;
     anemone_optional_argument *optional_argument_list;
-    char **positional_argument_list;
+    anemone_positional_argument *positional_argument_list;
 } anemone_struct;
 
 void initialize_lib(anemone_struct *lib);   
