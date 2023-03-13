@@ -47,22 +47,22 @@ void create_optional_argument(anemone_struct *lib, char *long_name, char *short_
 	else{
 	  // Crash due to unknow value
 	  sprintf(buffer_for_integer_conversion, "%d", argument_required);
-	  anemone__crash_the_program(ARGUMENT_REQUIRED_WITH_UNKNOW_VALUE, buffer_for_integer_conversion);
+	  anemone__crash_the_program(ARGUMENT_REQUIRED_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "");
 	}
       }
       else{
 	// Crash due to unknow value
 	sprintf(buffer_for_integer_conversion, "%d", the_argument_requires_value);
-	anemone__crash_the_program(ARGUMENT_REQUIRES_A_VAUE_WITH_UNKNOW_VALUE, buffer_for_integer_conversion);
+	anemone__crash_the_program(ARGUMENT_REQUIRES_A_VAUE_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "");
       }
     }
     else{
       // Crash due to incorrect long argument name format
-      anemone__crash_the_program(BAD_SHORT_ARGUMENT_NAME, short_name);
+      anemone__crash_the_program(BAD_SHORT_ARGUMENT_NAME, short_name, "");
     }
   }
   else{
-    anemone__crash_the_program(BAD_LONG_ARGUMENT_NAME, long_name);
+    anemone__crash_the_program(BAD_LONG_ARGUMENT_NAME, long_name, "");
   }
 }
 
@@ -133,13 +133,70 @@ anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_
   lib->compiled = ANEMONE_TRUE;
 }
 
-char *get_positional_argument(anemone_struct *lib, anemone_positional_argument_index index){
+
+
+char *get_positional_argument(anemone_struct lib, anemone_positional_argument_index index){
+#include "./../private/helpers.h"
   
+  anemone_positional_argument *return_value = lib.positional_argument_list;
+
+  // TODO !!! (possible buffer overflow)
+  char number_conversion_buffer[64];
+  char number_conversion_buffer2[64];
+  
+  if(lib.compiled == ANEMONE_TRUE){
+    if(index < lib.necessary_positionals){
+      for(unsigned int i = 0; i < index; i++){
+	return_value = return_value->next;
+      }
+      
+      return return_value->positional_argument_value;
+    }
+    else{
+      sprintf(number_conversion_buffer, "%d", index);
+      sprintf(number_conversion_buffer2, "%d", lib.necessary_positionals);
+      anemone__crash_the_program(GET_POSITIONAL_OUT_OF_RANGE, number_conversion_buffer, number_conversion_buffer2);
+    }
+  }
+  else{
+    anemone__crash_the_program(TRIED_GET_POSITIONAL_VALUE_BEFORE_COMPILATION, "", "");
+  }
 }
 
-anemone_optional_return_value get_optional_argument(anemone_struct *lib, char *long_name, char *short_name){
-
+unsigned int get_count_of_positional_arguments(anemone_struct lib){
+  return lib.fetched_positionals;
 }
+
+anemone_optional_return_value get_optional_argument(anemone_struct lib, char *argument_name){
+  #include "./../private/list_operations.h"
+  #include "./../private/helpers.h"
+  
+  anemone_optional_return_value return_value;
+  anemone_optional_argument *search_result;
+
+  search_result = anemone__search_value_in_optional_argument_list(lib.optional_argument_list, argument_name);
+  
+  if(search_result != NULL){
+    if(search_result->found == ANEMONE_TRUE){
+      return_value.set = ANEMONE_TRUE;
+      return_value.value = search_result->optional_argument_value;
+    }
+    else{
+      return_value.set = ANEMONE_FALSE;
+      return_value.value = NULL;
+    }
+  }
+  else{
+    anemone__crash_the_program(GET_OPTIONAL_ARGUMENT_WITH_NONEXISTENT_FLAG, argument_name, "");
+  }
+
+  return return_value;
+}
+
+anemone_bool is_the_library_compiled(anemone_struct lib){
+  return lib.compiled;
+}
+
 
 anemone_bool is_a_correct_long_name(char *possible_long_name){
   size_t string_size = strlen(possible_long_name);

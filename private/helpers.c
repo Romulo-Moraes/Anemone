@@ -27,7 +27,7 @@ anemone_optional_argument *anemone__create_optional_argument_node(char *long_nam
   return new_node;
 }
 
-void anemone__crash_the_program(unsigned short reason, char *bad_used_item){
+void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char *further_information){
   switch(reason){
   case BAD_LONG_ARGUMENT_NAME:
     printf("[ANEMONE PANIC] The setting 'long argument name' (%s) is not correct. Here's a correct example: --name [ANEMONE PANIC]\n", bad_used_item);
@@ -43,6 +43,18 @@ void anemone__crash_the_program(unsigned short reason, char *bad_used_item){
 
   case ARGUMENT_REQUIRES_A_VAUE_WITH_UNKNOW_VALUE:
     printf("%[ANEMONE PANIC] The setting 'argument requires a value' (given value: %s) is not correct. Here're the possible ways: ANEMONE_TRUE and ANEMONE_FALSE macros (%d and %d respectively) [ANEMONE PANIC]\n", bad_used_item, ANEMONE_TRUE, ANEMONE_FALSE);
+    break;
+
+  case TRIED_GET_POSITIONAL_VALUE_BEFORE_COMPILATION:
+    printf("[ANEMONE PANIC] The library tried to get a positional argument before compile the arguments! [ANEMONE PANIC]\n");
+    break;
+
+  case GET_POSITIONAL_OUT_OF_RANGE:
+    printf("[ANEMONE PANIC] The 'get positional argument' feature tried to fetch an argument in the position %s but the max range was %s! [ANEMONE PANIC]\n", bad_used_item, further_information);
+    break;
+
+  case GET_OPTIONAL_ARGUMENT_WITH_NONEXISTENT_FLAG:
+    printf("[ANEMONE PANIC] The feature 'get optional argument' was used with an unknow flag (%s)! [ANEMONE PANIC]\n", bad_used_item);
     break;
   }
 
