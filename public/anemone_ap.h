@@ -54,7 +54,7 @@ typedef struct{
     anemone_help_settings help_settings;
 } anemone_struct;
 
-void initialize_lib(anemone_struct *lib, char *program_name, char *program_version, char *program_description, char *creators, char *special_thanks, char *email_contact);
+void initialize_lib(anemone_struct *lib, char *program_name, char *program_version, char *program_depscription, char *creators, char *special_thanks, char *email_contact);
 void create_positional_argument(anemone_struct *lib, char *argument_description);
 void create_optional_argument(anemone_struct *lib, char *long_name, char *short_name, anemone_require_value the_argument_requires_value, anemone_optional_required argument_required);
 anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_status *output);

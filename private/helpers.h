@@ -1,15 +1,10 @@
+#ifndef ANEMONE_HELPERS_INCLUDED
+#define ANEMONE_HELPERS_INCLUDED
+
 #include "includes.h"
-#include "library_crash_codes.h"
-#ifndef ANEMONE_HEADER_DEFINED
-#define ANEMONE_HEADER_DEFINED
-#include "./../public/anemone_ap.h"
-#endif
 
 #define TRUE 1
 #define FALSE 0
-
-
-
 
 
 unsigned short count_dashes_in_argument_name(char *argument);
@@ -21,3 +16,5 @@ void anemone__iterate_block_of_short_arguments(anemone_struct *lib, char *block_
 anemone_bool anemone__final_checks_in_compilation(anemone_struct lib);
 void anemone__deallocate_all_if_allocation_failure(char **pointers_to_free, size_t array_size);
 char *anemone__realloc_creators_and_special_thanks_pointer_if_necessary(char *the_pointer, size_t creators_string_length, size_t special_thanks_string_length);
+
+#endif
