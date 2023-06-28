@@ -79,22 +79,22 @@ void create_optional_argument(anemone_struct *lib, char *long_name, char *short_
 		else{
 		    // Crash due to unknow value
 		    sprintf(buffer_for_integer_conversion, "%d", argument_required);
-		    anemone__crash_the_program(ARGUMENT_REQUIRED_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "");
+		    anemone__crash_the_program(ARGUMENT_REQUIRED_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "", lib);
 		}
 	    }
 	    else{
 		// Crash due to unknow value
 		sprintf(buffer_for_integer_conversion, "%d", the_argument_requires_value);
-		anemone__crash_the_program(ARGUMENT_REQUIRES_A_VAUE_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "");
+		anemone__crash_the_program(ARGUMENT_REQUIRES_A_VALUE_WITH_UNKNOW_VALUE, buffer_for_integer_conversion, "", lib);
 	    }
 	}
 	else{
 	    // Crash due to incorrect long argument name format
-	    anemone__crash_the_program(BAD_SHORT_ARGUMENT_NAME, short_name, "");
+	    anemone__crash_the_program(BAD_SHORT_ARGUMENT_NAME, short_name, "", lib);
 	}
     }
     else{
-	anemone__crash_the_program(BAD_LONG_ARGUMENT_NAME, long_name, "");
+	anemone__crash_the_program(BAD_LONG_ARGUMENT_NAME, long_name, "", lib);
     }
 }
 
@@ -177,14 +177,14 @@ anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_
     lib->compiled = ANEMONE_TRUE;
 }
 
-void anemone__trigger_positional_out_of_range_error(anemone_positional_argument_index index, unsigned int limit) {
+void anemone__trigger_positional_out_of_range_error(anemone_positional_argument_index index, unsigned int limit, anemone_struct *lib) {
     // TODO !!! (possible buffer overflow)
     char number_conversion_buffer[64];
     char number_conversion_buffer2[64];
     
     sprintf(number_conversion_buffer, "%d", index);
     sprintf(number_conversion_buffer2, "%d", limit);
-    anemone__crash_the_program(GET_POSITIONAL_OUT_OF_RANGE, number_conversion_buffer, number_conversion_buffer2);
+    anemone__crash_the_program(GET_POSITIONAL_OUT_OF_RANGE, number_conversion_buffer, number_conversion_buffer2, lib);
 }
 
 char *get_positional_argument(anemone_struct lib, anemone_positional_argument_index index)
@@ -201,11 +201,11 @@ char *get_positional_argument(anemone_struct lib, anemone_positional_argument_in
 	    return return_value->positional_argument_value;
 	}
 	else{
-	    anemone__trigger_positional_out_of_range_error(index, lib.necessary_positionals);
+	    anemone__trigger_positional_out_of_range_error(index, lib.necessary_positionals, &lib);
 	}
     }
     else{
-	anemone__crash_the_program(TRIED_GET_POSITIONAL_VALUE_BEFORE_COMPILATION, "", "");
+	anemone__crash_the_program(TRIED_GET_POSITIONAL_VALUE_BEFORE_COMPILATION, "", "", &lib);
     }
 }
 
@@ -231,7 +231,7 @@ anemone_optional_return_value get_optional_argument(anemone_struct lib, char *ar
 	}
     }
     else{
-	anemone__crash_the_program(GET_OPTIONAL_ARGUMENT_WITH_NONEXISTENT_FLAG, argument_name, "");
+	anemone__crash_the_program(GET_OPTIONAL_ARGUMENT_WITH_NONEXISTENT_FLAG, argument_name, "", &lib);
     }
 
     return return_value;
@@ -321,7 +321,7 @@ anemone_help_settings create_help_settings(char *program_name, char *program_ver
 	help_settings.program_version = program_version;
     }
     else{
-	anemone__crash_the_program(BAD_HELP_SETTING_VALUE, program_name, program_version);
+	anemone__crash_the_program(BAD_HELP_SETTING_VALUE, program_name, program_version, NULL);
     }
 
     // Description isn't necessary

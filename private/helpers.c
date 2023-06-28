@@ -1,4 +1,5 @@
 #include "./includes.h"
+#include "helpers.h"
 
 anemone_positional_argument *anemone__create_positional_argument_node(char *value){
     anemone_positional_argument *new_node = malloc(sizeof(anemone_positional_argument));
@@ -37,7 +38,7 @@ anemone_optional_argument *anemone__create_optional_argument_node(char *long_nam
     return new_node;
 }
 
-void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char *further_information){
+void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char *further_information, anemone_struct *lib){
     switch(reason){
     case BAD_LONG_ARGUMENT_NAME:
 	printf("[ANEMONE PANIC] The setting 'long argument name' (%s) is not correct. Here's a correct example: --name [ANEMONE PANIC]\n", bad_used_item);
@@ -51,7 +52,7 @@ void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char
 	printf("[ANEMONE PANIC] The setting 'argument required' (given value: %s) is not correct. Here're the possible ways: ANEMONE_TRUE and ANEMONE_FALSE macros (%d and %d respectively) [ANEMONE PANIC]\n", bad_used_item, ANEMONE_TRUE, ANEMONE_FALSE);
 	break;
 
-    case ARGUMENT_REQUIRES_A_VAUE_WITH_UNKNOW_VALUE:
+    case ARGUMENT_REQUIRES_A_VALUE_WITH_UNKNOW_VALUE:
 	printf("[ANEMONE PANIC] The setting 'argument requires a value' (given value: %s) is not correct. Here're the possible ways: ANEMONE_TRUE and ANEMONE_FALSE macros (%d and %d respectively) [ANEMONE PANIC]\n", bad_used_item, ANEMONE_TRUE, ANEMONE_FALSE);
 	break;
 
@@ -72,20 +73,10 @@ void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char
 	break;
     }
 
+    if(lib != NULL)
+	anemone__deallocate_all_to_exit(lib);
+    
     exit(1);
-}
-
-char *anemone__realloc_creators_and_special_thanks_pointer_if_necessary(char *the_pointer, size_t creators_string_length, size_t special_thanks_string_length){
-    if(special_thanks_string_length < creators_string_length){
-	return the_pointer;
-    }
-    else{
-	free(the_pointer);
-
-	the_pointer = (char*) malloc(sizeof(char) * special_thanks_string_length + 1);
-
-	return the_pointer;
-    }
 }
 
 void anemone__print_positional_arguments_and_descriptions(anemone_struct *lib) {
@@ -220,10 +211,57 @@ void anemone__show_program_help(anemone_struct *lib){
 
     anemone__print_email_contact(lib);
 
-    // TODO !!!! All allocated resources must be deallocated
+    anemone__deallocate_all_to_exit(lib);
+    
     exit(0);
 }
 
+void anemone__deallocate_list_of_descriptions(
+    positional_arguments_description *runner) {
+
+    positional_arguments_description *x;
+    
+    while (runner != NULL) {
+	x = runner;
+	runner = runner->next;
+	
+	free(x);
+    }
+}
+
+void anemone__deallocate_list_of_optional_arguments(
+    anemone_optional_argument *runner) {
+
+    anemone_optional_argument *x;
+
+    while(runner != NULL){
+	x = runner;
+	runner = runner->next;
+
+	free(x);
+    }
+}
+
+void anemone__deallocate_list_of_positional_arguments_value(
+    anemone_positional_argument *runner) {
+
+    anemone_positional_argument *x;
+
+    while(runner != NULL){
+	x = runner;
+	runner = runner->next;
+
+	free(x);
+    }
+}
+
+void anemone__deallocate_all_to_exit(anemone_struct *lib) {
+    anemone__deallocate_list_of_descriptions(lib->list_of_descriptions);
+
+    anemone__deallocate_list_of_optional_arguments(lib->optional_argument_list);
+
+    anemone__deallocate_list_of_positional_arguments_value(lib->positional_argument_list);
+}
 
 void anemone__iterate_block_of_short_arguments(anemone_struct *lib, char *block_of_flags, anemone_optional_argument *list, int argc, char *argv[], unsigned short *current_iteration){  
     size_t flag_blocks_length = strlen(block_of_flags) - 1;
