@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <inttypes.h>
+#include "library_failure_codes.h"
 #include "./../public/anemone_ap.h"
 #include "helpers.h"
 #include "library_crash_codes.h"

@@ -1,5 +1,5 @@
 #include "./includes.h"
-#include "helpers.h"
+#include <stdio.h>
 
 anemone_positional_argument *anemone__create_positional_argument_node(char *value){
     anemone_positional_argument *new_node = malloc(sizeof(anemone_positional_argument));
@@ -335,4 +335,16 @@ void anemone__deallocate_all_if_allocation_failure(char **pointers_to_free, size
 	    free(pointers_to_free[i]);
 	}
     }
+}
+
+void anemone__anemone_failure(int failure_id, anemone_struct *lib) {
+    switch(failure_id){
+    case RESOURCES_ALLOCATION_FAILURE:
+	puts("[ANEMONE FAILURE] The anemone library failed to allocate memory [ANEMONE FAILURE]");
+	break;
+    }
+
+    anemone__deallocate_all_to_exit(lib);
+
+    exit(1);
 }

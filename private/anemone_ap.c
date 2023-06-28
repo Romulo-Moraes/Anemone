@@ -1,3 +1,4 @@
+#include "helpers.h"
 #include "includes.h"
 
 
@@ -29,7 +30,8 @@ void create_positional_argument(anemone_struct *lib, char *argument_description)
 	if(lib->list_of_descriptions != NULL){
 	    current = lib->list_of_descriptions;
 
-	    // TODO !!!!! List with head can save time and process
+	    // TODO !!!!! Lists with head can save time to insert
+	    // it's a suggestion to future updates
 	    while(current != NULL){
 		before = current;
 		current = current->next;
@@ -45,7 +47,7 @@ void create_positional_argument(anemone_struct *lib, char *argument_description)
 	lib->necessary_positionals += 1;
     }
     else{
-	// TODO !!!!! Allocation failed
+	anemone__anemone_failure(RESOURCES_ALLOCATION_FAILURE, lib);
     }
 }
 
@@ -72,8 +74,7 @@ void create_optional_argument(anemone_struct *lib, char *long_name, char *short_
 			anemone__insert_optional_argument_list(&(lib->optional_argument_list), new_node);
 		    }
 		    else{
-			// TODO !!!!!
-			// Crash due fail on allocate dynamic memory
+			anemone__anemone_failure(RESOURCES_ALLOCATION_FAILURE, lib);
 		    }
 		}
 		else{
@@ -124,7 +125,7 @@ void anemone__collect_normal_optional_arguments(char *argv[], anemone_struct *li
 	}
     }
     else{
-	// TODO !!!!!
+	anemone__show_program_help(lib);
     }
 }
 
@@ -144,7 +145,7 @@ void anemone__collect_positional_arguments(anemone_struct *lib, char *argv[], un
 	lib->fetched_positionals += 1;
     }
     else{
-	// TODO !!!!!
+	anemone__anemone_failure(RESOURCES_ALLOCATION_FAILURE, lib);
     }
 }
 
@@ -178,7 +179,6 @@ anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_
 }
 
 void anemone__trigger_positional_out_of_range_error(anemone_positional_argument_index index, unsigned int limit, anemone_struct *lib) {
-    // TODO !!! (possible buffer overflow)
     char number_conversion_buffer[64];
     char number_conversion_buffer2[64];
     

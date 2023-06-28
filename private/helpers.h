@@ -17,5 +17,6 @@ anemone_bool anemone__final_checks_in_compilation(anemone_struct lib);
 void anemone__deallocate_all_if_allocation_failure(char **pointers_to_free,
                                                    size_t array_size);
 void anemone__deallocate_all_to_exit(anemone_struct *lib);
+void anemone__anemone_failure(int failure_id, anemone_struct *lib);
 
 #endif
