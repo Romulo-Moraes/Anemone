@@ -38,7 +38,10 @@ Here're the documentations of all functions available in this library, some of t
 anemone_struct is a struct that holds all the runtime data of the library, every function basically operates on top of it. The inner values of this struct don't must be accessed directly, there're functions that get and set values from it. This struct need to be initialized.
 
 ### initialize_lib(anemone_struct *lib, char *program_name, char *program_version, char *program_depscription, char *creators, char *special_thanks, char *email_contact);
-Function that initialize the anemone_struct, this function accepts the program name, program version, program description, creators, special thanks and e-mail contact. Program name is required and need receive a string with length 1 or greater. Program version is required and need receive a string with length 1 or greater. Program description is optional, pass NULL to ignore. Creators is optional, pass NULL to ignore. Special thanks is optional, pass NULL to ignore. E-mail contact is optional, pass NULL to ignore.
+Function that initialize the anemone_struct, this function accepts the program name, program version, program description, creators, special thanks and e-mail contact. Program name is required and need receive a string with length 1 or greater. Program version is required and need receive a string with length 1 or greater. Program description is optional, pass NULL to ignore. Creators is optional, pass NULL to ignore. Special thanks is optional, pass NULL to ignore. E-mail contact is optional, pass NULL to ignore. For instance:
+```c
+initialize_lib(&lib, "Simple calculator", "1.0", "Simple calculator to show how anemone works", "Cypher", "Bob", "myemail@gmail.com");
+```
 
 ### create_optional_argument(anemone_struct *lib, char *long_name, char *short_name, anemone_require_value the_argument_requires_value, anemone_optional_required argument_required);
 Function that register an optional argument in the library, this function accepts long argument name, short argument name, if the argument requires a value and if the argument is required. Long argument name accepts a string with the name and format of a normal optional argument. Short argument name accepts a string with the name and format of the normal optional argument short way. Argument requires a value accepts ANEMONE_TRUE or ANEMONE_FALSE and specify if the library need to be prepared to catch a value after found this flag in the argv. Optional argument required accepts ANEMONE_TRUE or ANEMONE_FALSE and specify if the flag, even being optional, must be required. Arguments created with this function can be fetched using the long_name or short_name with other function. For instance:
@@ -99,3 +102,72 @@ Helper function, tells you whether the library is comipled. Return value can eit
 
 ### get_count_of_positional_arguments(anemone_struct lib);
 Helper function, returns the count of defined positional arguments name. Returns value is an unsigned int.
+
+### Example of a functional program using Anemone
+```c
+#include <stdio.h>
+#include <ctype.h>
+#include "./public/anemone_ap.h"
+
+int is_numeric(char *buffer);
+
+int main(int argc, char *argv[]) {
+    char *first_number, *second_number;
+    int n1, n2;
+    anemone_struct lib;
+
+    initialize_lib(&lib, "Simple calculator", "1.0", "Simple calculator to show how anemone works", "Cypher", "Bob", "myemail@gmail.com");
+
+    create_optional_argument(&lib, "--operator", "-o", ANEMONE_TRUE, ANEMONE_TRUE);
+    create_positional_argument(&lib, "First number");
+    create_positional_argument(&lib, "Second number");
+
+    compile(&lib, argc, argv);
+
+    first_number = get_positional_argument(lib, 0);
+    second_number = get_positional_argument(lib, 1);
+
+    if(is_numeric(first_number) == 0 || is_numeric(second_number) == 0){
+		puts("One of the numbers isn't numeric");
+		return 1;
+    }
+
+    sscanf(first_number, "%d", &n1);
+    sscanf(second_number, "%d", &n2);
+
+    switch(get_optional_argument(lib, "-o").value[0]){
+    case '-':
+		printf("%d\n", n1 - n2);
+		break;
+    case '+':
+		printf("%d\n", n1 + n2);
+		break;
+    case '*':
+		printf("%d\n", n1 * n2);
+		break;
+    case '/':
+		if(n2 != 0)
+			printf("%d\n", n1 / n2);
+		else
+			puts("Division by zero is impossible");
+		break;
+    }
+    
+    return 0;
+}
+
+int is_numeric(char *buffer) {
+    while(*buffer != '\0'){
+		if(!isdigit(*buffer)){
+			return 0;
+		}
+	
+		buffer += 1;
+   	}
+
+    return 1;
+}
+```
+
+### Anemone as static library
+The Anemone was created with the goal of be a static library that would be made using the ar application, compiling everything and zipping into a '.a' file, forgetting the source code since now we have the static library on hands, however, nothing prevents you at compilation time of your software just pass the 'private/*.c' files to the compiler, this decision is up to you. There's a file called 'make_lib.sh' in the repository, calling this shell script being in the same repository of it will build the '.a' file for you inside the 'build/' directory'.
