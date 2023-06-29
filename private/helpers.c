@@ -118,8 +118,12 @@ void anemone__print_optional_arguments_and_descriptions(anemone_struct *lib) {
 
 void anemone__print_program_help_header(anemone_struct *lib) {
     printf("Program: %s, version: %s\n", lib->help_settings.program_name, lib->help_settings.program_version);
-    
-    printf("\n%s\n\n", lib->help_settings.program_description == NULL ? "" : lib->help_settings.program_description);
+
+    if(lib->help_settings.program_description != NULL){
+	printf("\n%s\n\n", lib->help_settings.program_description == NULL ? "" : lib->help_settings.program_description);
+    }else{
+	puts("");
+    }
 }
 
 
@@ -158,9 +162,9 @@ void anemone__print_program_creators(anemone_struct *lib) {
 	else{
 	    printf("Creators: %s", lib->help_settings.creators);
 	}
-    }
 
-    puts("");
+	puts("");
+    }
 }
 
 
@@ -187,9 +191,9 @@ void anemone__print_special_thanks(anemone_struct *lib) {
 	else{
 	    printf("Special thanks to: %s\n", lib->help_settings.special_thanks);
 	}
-    }
 
-    puts("");
+	puts("");
+    }
 }
 
 void anemone__print_email_contact(anemone_struct *lib) {   
@@ -217,7 +221,7 @@ void anemone__show_program_help(anemone_struct *lib){
 }
 
 void anemone__deallocate_list_of_descriptions(
-    positional_arguments_description *runner) {
+					      positional_arguments_description *runner) {
 
     positional_arguments_description *x;
     
@@ -230,7 +234,7 @@ void anemone__deallocate_list_of_descriptions(
 }
 
 void anemone__deallocate_list_of_optional_arguments(
-    anemone_optional_argument *runner) {
+						    anemone_optional_argument *runner) {
 
     anemone_optional_argument *x;
 
@@ -243,7 +247,7 @@ void anemone__deallocate_list_of_optional_arguments(
 }
 
 void anemone__deallocate_list_of_positional_arguments_value(
-    anemone_positional_argument *runner) {
+							    anemone_positional_argument *runner) {
 
     anemone_positional_argument *x;
 
@@ -309,7 +313,7 @@ anemone_bool anemone__final_checks_in_compilation(anemone_struct lib){
       Checking if the total of fetched positionals arguments is
       equal to the necessary, since a defined positional is always required,
       any mismatch is not acceptable
-     */
+    */
     if(lib.fetched_positionals != lib.necessary_positionals){
 	return ANEMONE_FALSE;
     }
