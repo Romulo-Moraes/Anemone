@@ -99,21 +99,20 @@ void create_optional_argument(anemone_struct *lib, char *long_name, char *short_
     }
 }
 
-void anemone__collect_normal_optional_arguments(char *argv[], anemone_struct *lib, unsigned int i, int argc) {
+void anemone__collect_normal_optional_arguments(char *argv[], anemone_struct *lib, unsigned short *i, int argc) {
     anemone_optional_argument *search_result;
 
     
-    if (is_a_correct_long_name(argv[i]) == ANEMONE_TRUE){
-	search_result = anemone__search_value_in_optional_argument_list(lib->optional_argument_list, argv[i]);
+    if (is_a_correct_long_name(argv[*i]) == ANEMONE_TRUE){
+	search_result = anemone__search_value_in_optional_argument_list(lib->optional_argument_list, argv[*i]);
 
 	if (search_result != NULL){
 	    search_result->found = ANEMONE_TRUE;
 
 	    if (search_result->require_value == ANEMONE_TRUE){
-		if (i != argc - 1){
-		    search_result->optional_argument_value = argv[i + 1];
-
-		    i++;
+		if (*i != argc - 1){
+		    search_result->optional_argument_value = argv[*i + 1];
+		    (*i)++;
 		}
 		else{
 		    anemone__show_program_help(lib);
@@ -157,7 +156,7 @@ anemone_bool compile(anemone_struct *lib, int argc, char *argv[])
 
 	// Trying to find normal optional arguments
 	if (strncmp(argv[i], "--", 2) == 0){
-	    anemone__collect_normal_optional_arguments(argv, lib, i, argc);
+	    anemone__collect_normal_optional_arguments(argv, lib, &i, argc);
 	}
 	else if (strncmp(argv[i], "-", 1) == 0){
 	    // Trying to find short optional arguments
