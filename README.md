@@ -100,6 +100,9 @@ Helper function, verifies whether a given value is a long argument name. Return 
 ### is_the_library_compiled(anemone_struct lib);
 Helper function, tells you whether the library is comipled. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
 
+### does_the_optional_argument_exist
+Helper function, useful to verify whether an optional flag was declared and can be fetched with the get_optional_argument() function. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
 ### get_count_of_positional_arguments(anemone_struct lib);
 Helper function, returns the count of defined positional arguments name. Returns value is an unsigned int.
 

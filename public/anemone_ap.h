@@ -62,4 +62,5 @@ anemone_bool is_the_library_compiled(anemone_struct lib);
 anemone_bool is_a_correct_long_name(char *possible_long_name);
 anemone_bool is_a_correct_short_name(char *possible_short_name);
 anemone_bool is_a_correct_anemone_bool_value(int possible_anemone_bool_value);
+anemone_bool does_the_optional_argument_exist(anemone_struct lib, char *argument_name);
 anemone_help_settings create_help_settings(char *program_name, char *program_version, char *program_description, char *creators, char *special_thanks, char *email_contact);
