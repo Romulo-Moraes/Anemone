@@ -274,12 +274,9 @@ anemone_bool is_a_correct_short_name(char *possible_short_name)
 
     // The short argument name should start with only one dash in the begin
     if (strncmp(possible_short_name, "--", 2) != 0 && strncmp(possible_short_name, "-", 1) == 0){
-	if (string_size - 1 >= 1){
-	    // This name must be of kind alphabet
-	    for (unsigned short i = 1; i < string_size && correct_short_name == ANEMONE_TRUE; i++){
-		if (!isalpha(possible_short_name[1])){
-		    correct_short_name = ANEMONE_FALSE;
-		}
+	if (string_size - 1 == 1){
+	    if (!isalpha(possible_short_name[1])){
+		correct_short_name = ANEMONE_FALSE;
 	    }
 	}
 	else{
