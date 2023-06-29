@@ -56,5 +56,9 @@ Function that register a positional argument, this functions only accepts the ar
 create_positional_argument(&lib, "The first positional argument");
 ```
 
-
+### compile(anemone_struct *lib, int argc, char *argv[], anemone_error_status *output);
+Main function of the library, after set all arguments that your program require, you can use the compile function, that does the whole process of get optional and positional arguments and give them to you using other library's functions. This function accepts the argc/argv that comes with your program by default and the error output. For instance:
+```c
+compile(&lib, argc, argv, &error);
+```
 
