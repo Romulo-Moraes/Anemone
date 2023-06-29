@@ -171,3 +171,7 @@ int is_numeric(char *buffer) {
 
 ### Anemone as static library
 The Anemone was created with the goal of be a static library that would be made using the ar application, compiling everything and zipping into a '.a' file, forgetting the source code since now we have the static library on hands, however, nothing prevents you at compilation time of your software just pass the 'private/*.c' files to the compiler, this decision is up to you. There's a file called 'make_lib.sh' in the repository, calling this shell script being in the same repository of it will build the '.a' file for you inside the 'build/' directory'.
+
+
+### Issues as documentation
+Are you facing PANICS with the Anemone? give a look at the issues with the label documentation, they can help you!
