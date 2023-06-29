@@ -128,8 +128,8 @@ int main(int argc, char *argv[]) {
     second_number = get_positional_argument(lib, 1);
 
     if(is_numeric(first_number) == 0 || is_numeric(second_number) == 0){
-		puts("One of the numbers isn't numeric");
-		return 1;
+	puts("One of the numbers isn't numeric");
+	return 1;
     }
 
     sscanf(first_number, "%d", &n1);
@@ -137,20 +137,20 @@ int main(int argc, char *argv[]) {
 
     switch(get_optional_argument(lib, "-o").value[0]){
     case '-':
-		printf("%d\n", n1 - n2);
-		break;
+	printf("%d\n", n1 - n2);
+	break;
     case '+':
-		printf("%d\n", n1 + n2);
-		break;
+	printf("%d\n", n1 + n2);
+	break;
     case '*':
-		printf("%d\n", n1 * n2);
-		break;
+	printf("%d\n", n1 * n2);
+	break;
     case '/':
-		if(n2 != 0)
-			printf("%d\n", n1 / n2);
-		else
-			puts("Division by zero is impossible");
-		break;
+	if(n2 != 0)
+		printf("%d\n", n1 / n2);
+	else
+		puts("Division by zero is impossible");
+	break;
     }
     
     return 0;
@@ -158,12 +158,12 @@ int main(int argc, char *argv[]) {
 
 int is_numeric(char *buffer) {
     while(*buffer != '\0'){
-		if(!isdigit(*buffer)){
-			return 0;
-		}
+	if(!isdigit(*buffer)){
+		return 0;
+	}
 	
-		buffer += 1;
-   	}
+	buffer += 1;
+     }
 
     return 1;
 }
