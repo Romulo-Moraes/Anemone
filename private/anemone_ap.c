@@ -149,7 +149,7 @@ void anemone__collect_positional_arguments(anemone_struct *lib, char *argv[], un
     }
 }
 
-anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_status *output)
+anemone_bool compile(anemone_struct *lib, int argc, char *argv[])
 {
     unsigned short i = 1;
 

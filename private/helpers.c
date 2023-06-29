@@ -85,44 +85,44 @@ void anemone__print_positional_arguments_and_descriptions(anemone_struct *lib) {
     for(positional_arguments_description *runner = lib->list_of_descriptions;
 	runner != NULL; runner = runner->next){
 	
-	printf("Positional argument %" PRIu64 ": %s\n",
+	printf("* Positional argument %" PRIu64 ": %s\n",
 	       positional_argument_index, runner->positional_description);
     
 	positional_argument_index++;
     }
 
-    puts("");
+    puts("*");
 }
 
 void anemone__print_optional_arguments_and_descriptions(anemone_struct *lib) {
     anemone_bool first_loop = TRUE;
     
-    printf("Optional arguments: ");
+    printf("* Optional arguments: ");
     
     for(anemone_optional_argument *runner = lib->optional_argument_list;
 	runner != NULL; runner = runner->next){
 
 	if(first_loop == FALSE){
-	    printf("                    ");
+	    printf("*                   ");
 	}else{
 	    first_loop = FALSE;
 	}
 	
-	printf("%s / %s %s%s\n", runner->short_name,
+	printf(" %s / %s %s%s\n", runner->short_name,
 	       runner->long_name, runner->require_value == ANEMONE_TRUE ? "<value>" : "",
 	       runner->required_argument == ANEMONE_TRUE ? " (REQUIRED)" : "");
     }
 
-    puts("");
+    puts("*");
 }
 
 void anemone__print_program_help_header(anemone_struct *lib) {
-    printf("Program: %s, version: %s\n", lib->help_settings.program_name, lib->help_settings.program_version);
+    printf("* Program: %s, version: %s\n", lib->help_settings.program_name, lib->help_settings.program_version);
 
     if(lib->help_settings.program_description != NULL){
-	printf("\n%s\n\n", lib->help_settings.program_description == NULL ? "" : lib->help_settings.program_description);
+	printf("* \n* %s\n*\n", lib->help_settings.program_description == NULL ? "" : lib->help_settings.program_description);
     }else{
-	puts("");
+	puts("* ");
     }
 }
 
@@ -153,14 +153,14 @@ void anemone__print_program_creators(anemone_struct *lib) {
 	    strcpy(creators_pointer, lib->help_settings.creators);
 
 	    token_pointer = strtok(creators_pointer, ";");
-	    printf("Creators: ");
+	    printf("* Creators: ");
 
 	    anemone__print_command_separated_values(token_pointer);
 
 	    free(creators_pointer);
 	}
 	else{
-	    printf("Creators: %s", lib->help_settings.creators);
+	    printf("* Creators: %s", lib->help_settings.creators);
 	}
 
 	puts("");
@@ -182,14 +182,14 @@ void anemone__print_special_thanks(anemone_struct *lib) {
 
 	    token_pointer = strtok(special_thanks_pointer, ";");
 
-	    printf("Special thanks to: ");
+	    printf("* Special thanks to: ");
 
 	    anemone__print_command_separated_values(token_pointer);
 
 	    free(special_thanks_pointer);
 	}
 	else{
-	    printf("Special thanks to: %s\n", lib->help_settings.special_thanks);
+	    printf("* Special thanks to: %s\n", lib->help_settings.special_thanks);
 	}
 
 	puts("");
@@ -198,7 +198,7 @@ void anemone__print_special_thanks(anemone_struct *lib) {
 
 void anemone__print_email_contact(anemone_struct *lib) {   
     if(lib->help_settings.email_contact != NULL && strlen(lib->help_settings.email_contact) >= 1){
-	printf("E-mail contact: %s\n", lib->help_settings.email_contact);
+	printf("* E-mail contact: %s\n", lib->help_settings.email_contact);
     }
 }
 
@@ -220,8 +220,7 @@ void anemone__show_program_help(anemone_struct *lib){
     exit(0);
 }
 
-void anemone__deallocate_list_of_descriptions(
-					      positional_arguments_description *runner) {
+void anemone__deallocate_list_of_descriptions(positional_arguments_description *runner) {
 
     positional_arguments_description *x;
     
@@ -233,8 +232,7 @@ void anemone__deallocate_list_of_descriptions(
     }
 }
 
-void anemone__deallocate_list_of_optional_arguments(
-						    anemone_optional_argument *runner) {
+void anemone__deallocate_list_of_optional_arguments(anemone_optional_argument *runner) {
 
     anemone_optional_argument *x;
 
@@ -246,8 +244,7 @@ void anemone__deallocate_list_of_optional_arguments(
     }
 }
 
-void anemone__deallocate_list_of_positional_arguments_value(
-							    anemone_positional_argument *runner) {
+void anemone__deallocate_list_of_positional_arguments_value(anemone_positional_argument *runner) {
 
     anemone_positional_argument *x;
 

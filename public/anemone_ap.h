@@ -5,14 +5,11 @@
 typedef unsigned char anemone_require_value;
 typedef unsigned short anemone_positional_argument_index;
 typedef unsigned char anemone_bool;
-typedef unsigned char anemone_error_status;
 typedef unsigned char anemone_optional_required;
-
 
 typedef struct{
     anemone_bool set;
     char *value;
-    anemone_bool require_value;
 } anemone_optional_return_value;
 
 typedef struct _anemone_positional_argument{
@@ -57,7 +54,7 @@ typedef struct{
 void initialize_lib(anemone_struct *lib, char *program_name, char *program_version, char *program_depscription, char *creators, char *special_thanks, char *email_contact);
 void create_positional_argument(anemone_struct *lib, char *argument_description);
 void create_optional_argument(anemone_struct *lib, char *long_name, char *short_name, anemone_require_value the_argument_requires_value, anemone_optional_required argument_required);
-anemone_bool compile(anemone_struct *lib, int argc, char *argv[], anemone_error_status *output);
+anemone_bool compile(anemone_struct *lib, int argc, char *argv[]);
 char *get_positional_argument(anemone_struct lib, anemone_positional_argument_index index);
 anemone_optional_return_value get_optional_argument(anemone_struct lib, char *argument_name);
 unsigned int get_count_of_positional_arguments(anemone_struct lib);

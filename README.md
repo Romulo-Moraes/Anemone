@@ -62,3 +62,40 @@ Main function of the library, after set all arguments that your program require,
 compile(&lib, argc, argv, &error);
 ```
 
+### get_positional_argument(anemone_struct lib, anemone_positional_argument_index index);
+Function that is useful after library compilation, this will return a pointer that points to the value passed in argv, this resource doesn't need to be deallocated, since this is pointing to inside the argv. The index of the values starts on 0. For instance:
+```c
+printf("My first positional argument: %s\n", get_positional_argument(lib, 0));
+```
+
+### anemone_optional_return_value
+Before understand how to get the optional arguments, is necessary understand what the function returns, the data type is anemone_optional_return_value and there're two fields inside it.
+
+<ul>
+	<li>anemone_bool set; - Holds ANEMONE_TRUE or ANEMONE_FALSE, indicates if the value was used in command line</li>
+	<li>char *value; - Holds the data, it's NULL whether argument doesn't require value</li>
+</ul>
+
+### get_optional_argument(anemone_struct lib, char *argument_name);
+Another function that is useful after compilation, but this one is for optional arguments, the flag used on definition of the argument can be used here. This function returns anemone_optional_return_value struct, having two fields that tells you the status of the searched argument. For instance:
+```c
+anemone_optional_return_value value = get_optional_argument(lib, "--name");
+```
+
+### is_valid_help_settings(char *program_name, char *program_version);
+Helper function, useful to verify whether the program name and program version are in correct format. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
+### is_a_correct_anemone_bool_value(int possible_anemone_bool_value);
+Helper function, verifies whether a given value is a anemone_bool value. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
+### is_a_correct_short_name(char *possible_short_name);
+Helper function, useful to verify whether a given string can be a short argument name. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
+### is_a_correct_long_name(char *possible_long_name);
+Helper function, verifies whether a given value is a long argument name. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
+### is_the_library_compiled(anemone_struct lib);
+Helper function, tells you whether the library is comipled. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
+
+### get_count_of_positional_arguments(anemone_struct lib);
+Helper function, returns the count of defined positional arguments name. Returns value is an unsigned int.
