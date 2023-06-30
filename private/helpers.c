@@ -69,7 +69,7 @@ void anemone__crash_the_program(unsigned short reason, char *bad_used_item, char
 	break;
 
     case BAD_HELP_SETTING_VALUE:
-	printf("[ANEMONE PANIC] Bad arguments when creating help settings, program name and program version must be different of NULL and length >= 1. [ANENOME PANIC]\n");
+	printf("[ANEMONE PANIC] Bad arguments when creating help settings, program name and program version must be different of NULL and length >= 1. [ANEMONE PANIC]\n");
 	break;
     }
 

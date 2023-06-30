@@ -104,7 +104,7 @@ Helper function, tells you whether the library is comipled. Return value can eit
 Helper function, useful to verify whether an optional flag was declared and can be fetched with the get_optional_argument() function. Return value can either be ANEMONE_TRUE or ANEMONE_FALSE.
 
 ### get_count_of_positional_arguments(anemone_struct lib);
-Helper function, returns the count of defined positional arguments name. Returns value is an unsigned int.
+Helper function, returns the count of defined positional arguments. Return value is an unsigned int.
 
 ### Example of a functional program using Anemone
 ```c
