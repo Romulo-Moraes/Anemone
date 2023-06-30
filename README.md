@@ -178,3 +178,6 @@ The Anemone was created with the goal of be a static library that would be made 
 
 ### Issues as documentation
 Are you facing PANICS with the Anemone? give a look at the issues with the label documentation, they can help you!
+
+### Bug reports or improvement requests
+Did you find a bug or have an idea of how to improve this software? don't hesitate to report in the issues section of this repository, every help is appreciated.
