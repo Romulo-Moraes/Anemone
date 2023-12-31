@@ -1,7 +1,7 @@
 
 <div align="center">
 	<h1>Anemone</h1>
-	<img width="400" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEc-ujM1rvcGh5snc80_NGtV4EKjokPwGwEA&usqp=CAU">
+	<img width="400" src="./assets/Anemone.png">
 </div>
 
 <br/>
