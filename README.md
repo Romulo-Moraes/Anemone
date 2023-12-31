@@ -1,4 +1,12 @@
-# Anemone
+
+<div align="center">
+	<h1>Anemone</h1>
+	<img width="400" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEc-ujM1rvcGh5snc80_NGtV4EKjokPwGwEA&usqp=CAU">
+</div>
+
+<br/>
+<br/>
+
 Anemone is a lightweight command-line argument parser for C programming language, the main idea of this argument parser is be simple, however, efficient, with positional/optional arguments, help message with program name, program version, the necessary positional arguments, the possible optional arguments and the special thanks section.
 
 
