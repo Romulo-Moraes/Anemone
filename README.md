@@ -4,9 +4,7 @@
 	<img width="400" src="./assets/Anemone.png">
 </div>
 
-<br/>
-<br/>
-
+## What is this?
 Anemone is a lightweight command-line argument parser for C programming language, the main idea of this argument parser is be simple, however, efficient, with positional/optional arguments, help message with program name, program version, the necessary positional arguments, the possible optional arguments and the special thanks section.
 
 
