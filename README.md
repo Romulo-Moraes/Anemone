@@ -40,6 +40,7 @@ As the name says, positional arguments are caught through position in the argv a
 ## Documentation
 Here're the documentations of all functions available in this library, some of them have specific uses, but the great part you will always use in your programs.
 
+
 ### anemone_struct
 anemone_struct is a struct that holds all the runtime data of the library, every function basically operates on top of it. The inner values of this struct don't must be accessed directly, there're functions that get and set values from it. This struct need to be initialized.
 
@@ -178,8 +179,17 @@ int is_numeric(char *buffer) {
 }
 ```
 
-### Anemone as static library
-The Anemone was created with the goal of be a static library that would be made using the ar application, compiling everything and zipping into a '.a' file, forgetting the source code since now we have the static library on hands, however, nothing prevents you at compilation time of your software just pass the 'private/*.c' files to the compiler, this decision is up to you. There's a file called 'make_lib.sh' in the repository, calling this shell script being in the same repository of it will build the '.a' file for you inside the 'build/' directory'.
+### Compiling the library
+The library has Meson Build support, to setup the build system go to the root of the project and execute:
+```sh
+meson setup build/
+```
+
+Inside the build directory, run the following command:
+```sh
+# This command will install the lib on public/ directory
+meson install
+```
 
 
 ### Issues as documentation
